@@ -1,23 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { auth } from "./firebase.js";
-import Login from "./views/Login.vue";
+import { createRouter, createWebHashHistory } from "vue-router";
 import Dashboard from "./views/Dashboard.vue";
+import Login from "./views/Login.vue";
 
 const routes = [
-  { path: "/login", component: Login },
-  { path: "/", component: Dashboard, meta: { requiresAuth: true } }
+  { path: "/", component: Dashboard },
+  { path: "/login", component: Login }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
-});
-
-router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(r => r.meta.requiresAuth);
-  const user = auth.currentUser;
-  if (requiresAuth && !user) next("/login");
-  else next();
 });
 
 export default router;
